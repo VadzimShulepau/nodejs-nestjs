@@ -1,7 +1,7 @@
-FROM node:16
-WORKDIR /usr/src/app
+FROM node:16-alpine
+WORKDIR /app/src
 COPY package*.json ./
-RUN npm install
+RUN npm install --force
 COPY . .
 COPY .env.example .env
 EXPOSE ${PORT}
