@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:14.4-alpine
+    build: ./db
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - postgresdb:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      # PGDATA: usr/app/db
+    restart: always
+    networks:
+      - nodejs-network
+
+  app:
+    container_name: app
+    image: vadzimsh/nodejs2022-app
+    build: .
+    ports:
+      - ${PORT}:${PORT}
+    volumes:
+      - .:usr/app
+      - /usr/app/node_modules
+    env_file:
+      - .env
+    depends_on: 
+      - postgres
+    # links:
+    #   - postgres
+    environment:
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_HOST: postgres
+    restart: always
+    networks:
+      - nodejs-network
+
+# volumes:
+#   postgresdb:
+  
+networks:
+  nodejs-network:
+    name: nodejs-network
+    driver: bridge
