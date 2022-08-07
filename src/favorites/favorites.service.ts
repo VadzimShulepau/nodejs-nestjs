@@ -6,7 +6,6 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { FavoritesResponseEntity } from './entities/favorite-response.entity';
 import { AlbumService } from 'src/album/album.service';
 import { TrackService } from 'src/track/track.service';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,6 +16,7 @@ import {
   FavoritesTrackEntity,
 } from './entities/favorite.entity';
 import { Repository } from 'typeorm';
+import { ServicesEnum } from './enums/fav-service.enum';
 
 @Injectable()
 export class FavoritesService {
@@ -47,7 +47,7 @@ export class FavoritesService {
     },
   };
 
-  private async isFavs(id: string, item: string): Promise<string> {
+  private async isFavs(id: string, item: ServicesEnum) {
     const favs = {
       artists: await this.favRepoArtists.find({ where: { artistId: id } }),
       albums: await this.favRepoAlbums.find({ where: { albumId: id } }),
@@ -56,7 +56,7 @@ export class FavoritesService {
     return favs[item];
   }
 
-  private async addItem(id: string, item: string) {
+  private async addItem(id: string, item: ServicesEnum) {
     const isExist = await this.isFavs(id, item);
 
     const isService = await this.service[item](id);
@@ -85,7 +85,7 @@ export class FavoritesService {
     }
   }
 
-  private delItem(id: string, item: string) {
+  private delItem(id: string, item: ServicesEnum) {
     const isExist = this.isFavs(id, item);
     if (isExist) {
       const favs = {
@@ -105,44 +105,36 @@ export class FavoritesService {
     }
   }
 
-  private async getAll(item: string) {
-    const favs = {
-      artists: await this.favRepoArtists.find(),
-      albums: await this.favRepoAlbums.find(),
-      tracks: await this.favRepoTracks.find(),
-    };
-    return favs[item];
-  }
-
   async addFavsArtist(id: string): Promise<void> {
-    return await this.addItem(id, 'artists');
+    await this.addItem(id, ServicesEnum.Artists);
   }
 
   async addFavsAlbum(id: string): Promise<void> {
-    return await this.addItem(id, 'albums');
+    await this.addItem(id, ServicesEnum.Albums);
   }
 
   async addFavsTrack(id: string): Promise<void> {
-    return await this.addItem(id, 'tracks');
+    await this.addItem(id, ServicesEnum.Tracks);
   }
 
   async findAll(): Promise<FavoritesEntity> {
-    const artists = await this.getAll('artists');
-    const albums = await this.getAll('albums');
-    const tracks = await this.getAll('tracks');
+    const artists = await this.favRepoArtists.find();
+    const albums = await this.favRepoAlbums.find();
+    const tracks = await this.favRepoTracks.find();
+
     const favs = new FavoritesEntity(artists, albums, tracks);
     return favs;
   }
 
   async deleteFavsArtist(id: string): Promise<void> {
-    this.delItem(id, 'artists');
+    this.delItem(id, ServicesEnum.Artists);
   }
 
   async deleteFavsAlbum(id: string): Promise<void> {
-    this.delItem(id, 'albums');
+    this.delItem(id, ServicesEnum.Albums);
   }
 
   async deleteFavsTrack(id: string): Promise<void> {
-    this.delItem(id, 'tracks');
+    this.delItem(id, ServicesEnum.Tracks);
   }
 }
