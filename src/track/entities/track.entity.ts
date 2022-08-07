@@ -1,11 +1,22 @@
 import { Track } from './../interfaces/track.interface';
 import { v4 as uuid } from 'uuid';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+@Entity('track')
 export class TrackEntity implements Track {
+  @PrimaryGeneratedColumn()
   id: string;
+
+  @Column()
   name: string;
+
+  @Column({ default: null })
   artistId: string | null;
+
+  @Column({ default: null })
   albumId: string | null;
+
+  @Column()
   duration: number;
 
   constructor(

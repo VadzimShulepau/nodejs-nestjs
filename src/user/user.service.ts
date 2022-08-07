@@ -7,10 +7,16 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { InMemoryDataBase } from 'src/im-memory.storage';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UserService {
-  constructor(private db: InMemoryDataBase) {}
+  constructor(
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
+    private db: InMemoryDataBase,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const { login, password } = createUserDto;

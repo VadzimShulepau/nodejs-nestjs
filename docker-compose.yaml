@@ -4,11 +4,13 @@ services:
   postgres:
     container_name: postgres
     image: postgres:14.4-alpine
-    build: ./db
+    build: 
+      context: ./db
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    restart: always
     volumes:
-      - postgresdb:/var/lib/postgresql/data
+      - ./db:/var/lib/postgresql/data
     env_file:
       - .env
     environment:
@@ -16,16 +18,17 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
       # PGDATA: usr/app/db
-    restart: always
     networks:
       - nodejs-network
 
   app:
     container_name: app
     image: vadzimsh/nodejs2022-app
-    build: .
+    build:
+      context: .
     ports:
       - ${PORT}:${PORT}
+    restart: always
     volumes:
       - .:usr/app
       - /usr/app/node_modules
@@ -37,8 +40,7 @@ services:
     #   - postgres
     environment:
       POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_HOST: postgres
-    restart: always
+      POSTGRES_HOST: ${POSTGRES_HOST}
     networks:
       - nodejs-network
 
@@ -47,5 +49,4 @@ services:
   
 networks:
   nodejs-network:
-    name: nodejs-network
     driver: bridge
