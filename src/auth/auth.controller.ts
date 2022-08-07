@@ -1,4 +1,4 @@
-import { Controller, Param, Post } from '@nestjs/common';
+import { Controller, Param, Post, Put } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import * as bcrypt from 'bcrypt';
 
@@ -6,14 +6,14 @@ import * as bcrypt from 'bcrypt';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('register')
+  @Post('signup')
   async register(
     @Param('login') login: string,
     @Param('password') password: string,
   ) {
     const hashedPass = await bcrypt.hash(password, 10);
 
-    return await this.authService.register(login, hashedPass);
+    return await this.authService.singup(login, hashedPass);
   }
 
   @Post('login')
@@ -22,5 +22,13 @@ export class AuthController {
     @Param('password') password: string,
   ) {
     return this.authService.login(login, password);
+  }
+
+  @Put('refresh')
+  async refresh(
+    @Param('login') login: string,
+    @Param('password') password: string,
+  ) {
+    return this.authService.refresh(login, password);
   }
 }

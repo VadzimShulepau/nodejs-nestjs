@@ -22,7 +22,7 @@ export class AuthService {
     return user;
   }
 
-  async register(login: string, password: string): Promise<UserEntity> {
+  async signup(login: string, password: string): Promise<UserEntity> {
     const newUser = new UserEntity(login, password);
     return this.userRepository.save(newUser);
   }
