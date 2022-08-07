@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
-import { InMemoryDataBase } from 'src/im-memory.storage';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -15,23 +14,23 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
-    private db: InMemoryDataBase,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserEntity> {
     const { login, password } = createUserDto;
 
     const newUser = new UserEntity(login, password);
-    this.db.users.push(newUser);
-    return newUser;
+    const user = this.userRepository.create(newUser);
+    await this.userRepository.save(user);
+    return user;
   }
 
   async findAll(): Promise<UserEntity[]> {
-    return this.db.users;
+    return await this.userRepository.find();
   }
 
   async findOne(id: string): Promise<UserEntity | undefined> {
-    const user = this.db.users.find((user: UserEntity) => user.id === id);
+    const user = await this.userRepository.findOneBy({ id });
     return user;
   }
 
@@ -47,16 +46,15 @@ export class UserService {
     if (user.password !== oldPassword)
       throw new ForbiddenException('password is wrong');
 
-    user.password = newPassword;
-    user.version += 1;
-    user.updatedAt = Date.now();
-    return user;
+    await this.userRepository.update(id, { password: newPassword });
+
+    return await this.findOne(id);
   }
 
   async remove(id: string): Promise<UserEntity | undefined> {
     const user = await this.findOne(id);
     if (user) {
-      this.db.users = this.db.users.filter((u: UserEntity) => u.id !== id);
+      await this.userRepository.delete(id);
       return user;
     } else throw new NotFoundException('user not found');
   }
