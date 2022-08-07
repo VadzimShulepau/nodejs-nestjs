@@ -4,12 +4,8 @@ import { TrackModule } from './track/track.module';
 import { AlbumModule } from './album/album.module';
 import { UserModule } from './user/user.module';
 import { FavoritesModule } from './favorites/favorites.module';
-import { InMemoryDataBaseModule } from './im-memory.storage';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthController } from './auth/auth.controller';
-import { AuthService } from './auth/auth.service';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -37,10 +33,6 @@ import { AuthModule } from './auth/auth.module';
     TrackModule,
     AlbumModule,
     FavoritesModule,
-    InMemoryDataBaseModule,
-    AuthModule,
   ],
-  controllers: [AuthController],
-  providers: [AuthService],
 })
 export class AppModule {}
