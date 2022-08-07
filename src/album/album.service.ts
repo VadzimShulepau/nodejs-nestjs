@@ -10,11 +10,14 @@ import { CreateAlbumDto } from './dto/create-album.dto';
 import { UpdateAlbumDto } from './dto/update-album.dto';
 import { FavoritesService } from 'src/favorites/favorites.service';
 import { TrackService } from 'src/track/track.service';
+import { InjectRepository } from '@nestjs/typeorm';
 // import { v4 as uuid } from 'uuid';
+import { Repository } from 'typeorm';
 @Injectable()
 export class AlbumService {
   constructor(
-    private db: InMemoryDataBase,
+    @InjectRepository(AlbumEntity)
+    private albumRepository: Repository<AlbumEntity>,
     @Inject(forwardRef(() => FavoritesService))
     private readonly favoritesService: FavoritesService,
     @Inject(forwardRef(() => TrackService))
@@ -26,23 +29,18 @@ export class AlbumService {
   ): Promise<AlbumEntity | undefined> {
     const { name, year, artistId } = createAlbumDto;
     const album = new AlbumEntity(name, year, artistId);
-    // const album = {
-    //   id: uuid(),
-    //   name,
-    //   year,
-    //   artistId,
-    // };
 
-    this.db.albums.push(album);
-    return album;
+    const newAlbum = await this.albumRepository.create(album);
+    await this.albumRepository.save(newAlbum);
+    return newAlbum;
   }
 
   async findAll(): Promise<AlbumEntity[]> {
-    return this.db.albums;
+    return await this.albumRepository.find();
   }
 
   async findOne(id: string): Promise<AlbumEntity | undefined> {
-    const album = this.db.albums.find((album) => album.id === id);
+    const album = await this.albumRepository.findOneBy({ id });
     return album;
   }
 
@@ -53,7 +51,8 @@ export class AlbumService {
     const album = await this.findOne(id);
 
     if (!album) throw new NotFoundException('album not found');
-    Object.assign(album, { ...updateAlbumDto });
+    const updatedAlbum = Object.assign(album, { ...updateAlbumDto });
+    await this.albumRepository.update(id, updatedAlbum);
     return album;
   }
 
@@ -61,9 +60,7 @@ export class AlbumService {
     const album = await this.findOne(id);
     if (!album) throw new NotFoundException('artist not found');
 
-    this.db.albums = this.db.albums.filter(
-      (album: AlbumEntity) => album.id !== id,
-    );
+    await this.albumRepository.delete(id);
 
     const tracks = await this.trackService.findAll();
     tracks.filter((track) => track.albumId === id);
