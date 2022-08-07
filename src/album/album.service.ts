@@ -1,5 +1,4 @@
 import { AlbumEntity } from './entities/album.entity';
-import { InMemoryDataBase } from './../im-memory.storage';
 import {
   Inject,
   Injectable,

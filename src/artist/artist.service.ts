@@ -11,11 +11,14 @@ import { UpdateArtistDto } from './dto/update-artist.dto';
 import { FavoritesService } from 'src/favorites/favorites.service';
 import { AlbumService } from 'src/album/album.service';
 import { TrackService } from 'src/track/track.service';
+import { InjectRepository } from '@nestjs/typeorm';
 // import { v4 as uuid } from 'uuid';
+import { Repository } from 'typeorm';
 @Injectable()
 export class ArtistService {
   constructor(
-    private db: InMemoryDataBase,
+    @InjectRepository(ArtistEntity)
+    private artistRepository: Repository<ArtistEntity>,
     @Inject(forwardRef(() => FavoritesService))
     private favoritesService: FavoritesService,
     @Inject(forwardRef(() => AlbumService))
@@ -30,16 +33,17 @@ export class ArtistService {
     const { name, grammy } = createArtistDto;
     const artist = new ArtistEntity(name, grammy);
 
-    this.db.artists.push(artist);
-    return artist;
+    const newArtist = await this.artistRepository.create(artist);
+    await this.artistRepository.save(newArtist);
+    return newArtist;
   }
 
   async findAll(): Promise<ArtistEntity[]> {
-    return this.db.artists;
+    return await this.artistRepository.find();
   }
 
   async findOne(id: string): Promise<ArtistEntity | undefined> {
-    const artist = this.db.artists.find((artist) => artist.id === id);
+    const artist = this.artistRepository.findOneBy({ id });
     return artist;
   }
 
@@ -49,8 +53,9 @@ export class ArtistService {
   ): Promise<ArtistEntity | undefined> {
     const artist = await this.findOne(id);
     if (!artist) throw new NotFoundException('artist not found');
-    Object.assign(artist, updateArtistDto);
-    return artist;
+    const updatedArtist = Object.assign(artist, updateArtistDto);
+    await this.artistRepository.update(id, updatedArtist);
+    return updatedArtist;
   }
 
   async remove(id: string): Promise<void> {
@@ -58,7 +63,7 @@ export class ArtistService {
 
     if (!artist) throw new NotFoundException('artist not found');
 
-    this.db.artists = this.db.artists.filter((artist) => artist.id !== id);
+    await this.artistRepository.delete(id);
 
     const albums = await this.albumService.findAll();
     albums.filter((album) => album.artistId === id);
