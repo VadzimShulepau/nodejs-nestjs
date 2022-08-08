@@ -1,5 +1,4 @@
 import { ArtistEntity } from './entities/artist.entity';
-import { InMemoryDataBase } from './../im-memory.storage';
 import {
   Inject,
   Injectable,
@@ -33,7 +32,7 @@ export class ArtistService {
     const { name, grammy } = createArtistDto;
     const artist = new ArtistEntity(name, grammy);
 
-    const newArtist = await this.artistRepository.create(artist);
+    const newArtist = this.artistRepository.create(artist);
     await this.artistRepository.save(newArtist);
     return newArtist;
   }

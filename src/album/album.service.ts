@@ -29,7 +29,7 @@ export class AlbumService {
     const { name, year, artistId } = createAlbumDto;
     const album = new AlbumEntity(name, year, artistId);
 
-    const newAlbum = await this.albumRepository.create(album);
+    const newAlbum = this.albumRepository.create(album);
     await this.albumRepository.save(newAlbum);
     return newAlbum;
   }
