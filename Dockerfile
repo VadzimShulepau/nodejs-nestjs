@@ -6,5 +6,5 @@ COPY . .
 COPY .env.example .env
 # ENV PORT 4000
 # VOLUME [ "/app/src/data" ]
-EXPOSE ${PORT}
+EXPOSE 4000
 CMD [ "npm", "run", "start:dev" ]
