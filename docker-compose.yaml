@@ -38,7 +38,7 @@ services:
     #   - postgres
     environment:
       POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_HOST: postgres
+      POSTGRES_HOST: ${POSTGRES_HOST}
     restart: always
     networks:
       - nodejs-network
