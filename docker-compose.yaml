@@ -12,10 +12,11 @@ services:
     env_file:
       - .env
     environment:
+      POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-      # PGDATA: usr/app/db
+      PGDATA: /var/lib/postgresql/data
     restart: always
     networks:
       - nodejs-network
@@ -27,7 +28,7 @@ services:
     ports:
       - ${PORT}:${PORT}
     volumes:
-      - .:usr/app
+      - .:/usr/app
       - /usr/app/node_modules
     env_file:
       - .env
@@ -42,10 +43,11 @@ services:
     networks:
       - nodejs-network
 
-# volumes:
-#   postgresdb:
   
 networks:
   nodejs-network:
     name: nodejs-network
     driver: bridge
+
+volumes:
+  postgresdb:
