@@ -39,7 +39,7 @@ export class FavoritesTrackEntity {
   }
 }
 
-@Entity('favorites')
+// @Entity('favorites')
 export class FavoritesEntity {
   artists: FavoritesArtistEntity[];
   albums: FavoritesAlbumEntity[];
