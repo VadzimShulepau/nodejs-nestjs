@@ -2,7 +2,7 @@
 /dist
 /node_modules
 /.db
-/postgres
+db/postgres
 
 # Logs
 logs
