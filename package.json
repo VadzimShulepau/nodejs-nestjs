@@ -24,6 +24,7 @@
     "docker:stop": "docker-compose stop",
     "docker:down": "docker-compose down",
     "docker:scan": "docker scan",
+    "docker:test": "docker exec app npm run test",
     "docker:pg": "docker run --name postgresql -e POSTGRES_USER=user -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=postgres -p 5432:5432 -v ./db:/var/lib/postgresql/data -d postgres:14.4-alpine"
   },
   "dependencies": {

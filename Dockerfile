@@ -1,10 +1,8 @@
 FROM node:16-alpine
 WORKDIR /usr/app
-COPY package*.json ./
-RUN npm install --force
+COPY package*.json .
+RUN npm install -f && npm cache clean -f
 COPY . .
 COPY .env.example .env
-# ENV PORT 4000
-# VOLUME [ "/app/src/data" ]
-EXPOSE 4000
+EXPOSE ${PORT}
 CMD [ "npm", "run", "start:dev" ]
