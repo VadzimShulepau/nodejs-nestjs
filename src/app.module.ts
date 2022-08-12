@@ -10,7 +10,7 @@ import { configService } from './configs/config-servise';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '../.evn' }),
-    TypeOrmModule.forRoot(configService()),
+    TypeOrmModule.forRoot(configService),
     UserModule,
     ArtistModule,
     TrackModule,

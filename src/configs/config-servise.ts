@@ -1,7 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import 'dotenv/config';
 
-export const configService = (): TypeOrmModuleOptions => ({
+export const configService: TypeOrmModuleOptions = {
   type: 'postgres',
   host: process.env.POSTGRES_HOST as string,
   password: process.env.POSTGRES_PASSWORD as string,
@@ -15,4 +15,4 @@ export const configService = (): TypeOrmModuleOptions => ({
   // migrationsRun: false,
   // migrations: ['./**/migrations/*{.ts,.js}'],
   //migrationsTableName: 'migrations',
-});
+};
