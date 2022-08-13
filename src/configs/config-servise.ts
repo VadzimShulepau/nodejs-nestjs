@@ -12,7 +12,7 @@ export const configService: TypeOrmModuleOptions = {
   synchronize: true,
   autoLoadEntities: true,
   logging: true,
+  // migrations: [process.cwd() + './db/migrations/*.ts'],
+  // migrationsTableName: 'migrations',
   // migrationsRun: false,
-  // migrations: ['./**/migrations/*{.ts,.js}'],
-  //migrationsTableName: 'migrations',
 };
