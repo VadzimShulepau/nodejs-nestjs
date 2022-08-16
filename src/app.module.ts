@@ -6,7 +6,7 @@ import { UserModule } from './user/user.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { configService } from './configs/config-servise';
+import { configService } from './configs/service.config';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '../.evn' }),

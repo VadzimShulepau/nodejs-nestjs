@@ -46,9 +46,8 @@ services:
       - nodejs-network
 
 volumes:
-  postgresdb:
-  logs:
-  
+  app:
+  postgres:
 networks:
   nodejs-network:
     name: nodejs-network
