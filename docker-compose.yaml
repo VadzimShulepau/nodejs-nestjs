@@ -24,7 +24,7 @@ services:
 
   app:
     container_name: app
-    image: vadzimsh/nodejs2022-app
+    image: vadzimsh/nestjs-app
     build: .
     ports:
       - ${PORT}:${PORT}
