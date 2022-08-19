@@ -1,9 +1,10 @@
 import { Album } from './../interfaces/album.interface';
 import { v4 as uuid } from 'uuid';
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { ArtistEntity } from '../../artist/entities/artist.entity';
 
 export class AlbumEntity implements Album {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -12,6 +13,11 @@ export class AlbumEntity implements Album {
   @Column()
   year: number;
 
+  @ManyToOne(() => ArtistEntity, (artist) => artist.id, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  artist: AlbumEntity;
   @Column({ nullable: true, default: null })
   artistId: string | null;
 

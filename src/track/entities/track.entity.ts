@@ -1,19 +1,31 @@
 import { Track } from './../interfaces/track.interface';
 import { v4 as uuid } from 'uuid';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { ArtistEntity } from '../../artist/entities/artist.entity';
+import { AlbumEntity } from '../../album/entities/album.entity';
 
 @Entity('track')
 export class TrackEntity implements Track {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   name: string;
 
-  @Column({ default: null })
+  @ManyToOne(() => ArtistEntity, (artist) => artist.id, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  artist: ArtistEntity;
+  @Column({ nullable: true, default: null })
   artistId: string | null;
 
-  @Column({ default: null })
+  @ManyToOne(() => AlbumEntity, (album) => album.id, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  album: AlbumEntity;
+  @Column({ nullable: true, default: null })
   albumId: string | null;
 
   @Column()

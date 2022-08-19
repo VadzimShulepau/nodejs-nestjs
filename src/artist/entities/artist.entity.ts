@@ -1,9 +1,11 @@
-import { Artist } from './../interfaces/artist.interface';
 import { v4 as uuid } from 'uuid';
-import { Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { AlbumEntity } from '../../album/entities/album.entity';
+import { TrackEntity } from '../../track/entities/track.entity';
+import { Artist } from 'src/artist/interfaces/artist.interface';
 
 export class ArtistEntity implements Artist {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -11,6 +13,12 @@ export class ArtistEntity implements Artist {
 
   @Column({ default: false })
   grammy: boolean;
+
+  @OneToMany(() => AlbumEntity, (album) => album.artistId)
+  albums: AlbumEntity[];
+
+  @OneToMany(() => TrackEntity, (track) => track.artistId)
+  tracks: TrackEntity[];
 
   constructor(name: string, grammy: boolean) {
     this.id = uuid();
