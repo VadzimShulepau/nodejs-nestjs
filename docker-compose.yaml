@@ -8,7 +8,7 @@ services:
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
-      - postgresdb:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
       - logs:/var/lib/postgresql/pg.log
     env_file:
       - .env
@@ -46,8 +46,8 @@ services:
       - nodejs-network
 
 volumes:
-  app:
-  postgres:
+  database:
+  
 networks:
   nodejs-network:
     name: nodejs-network
