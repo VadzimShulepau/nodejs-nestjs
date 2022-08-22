@@ -8,12 +8,11 @@ services:
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
-      - database:/var/lib/postgresql/data
-      - logs:/var/lib/postgresql/pg.log
-    env_file:
-      - .env
+      - pgdata:/var/lib/postgresql/data
+    # env_file:
+    #   - .env
     environment:
-      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_HOST: 127.0.0.1
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
@@ -29,25 +28,27 @@ services:
     ports:
       - ${PORT}:${PORT}
     volumes:
-      - .:/usr/app
-      - /usr/app/node_modules
-    env_file:
-      - .env
+      - app:/var/lib/app
+      - /var/lib/app/node_modules
+    # env_file:
+    #   - .env
     depends_on: 
       - postgres
     environment:
-      POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_HOST: postgres
-      POSTGRES_USERNAME: ${POSTGRES_USERNAME}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: /var/lib/postgresql/data
     restart: always
     networks:
       - nodejs-network
 
 volumes:
-  database:
-  
+  pgdata:
+  app:
+
 networks:
   nodejs-network:
     name: nodejs-network

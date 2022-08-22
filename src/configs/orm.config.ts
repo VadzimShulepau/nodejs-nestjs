@@ -9,6 +9,9 @@ export const ormConfig = new DataSource({
   database: process.env.POSTGRES_DB as string,
   port: +process.env.POSTGRES_PORT as unknown as number,
   entities: [process.cwd() + './src/**/*.entity{.ts,.js}'],
+  logging: true,
+  synchronize: false,
+  migrationsRun: false,
   migrations: [process.cwd() + './db/migrations/*.ts'],
   migrationsTableName: 'migration',
 });

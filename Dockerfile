@@ -1,5 +1,5 @@
 FROM node:16-alpine
-WORKDIR /usr/app
+WORKDIR /var/lib/app
 COPY package*.json .
 RUN npm install -f && npm cache clean -f
 COPY . .

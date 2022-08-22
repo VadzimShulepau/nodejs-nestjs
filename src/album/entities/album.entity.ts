@@ -1,7 +1,7 @@
 import { Album } from './../interfaces/album.interface';
 import { v4 as uuid } from 'uuid';
 import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { ArtistEntity } from '../../artist/entities/artist.entity';
+import { ArtistEntity } from 'src/artist/entities/artist.entity';
 
 export class AlbumEntity implements Album {
   @PrimaryGeneratedColumn('uuid')
