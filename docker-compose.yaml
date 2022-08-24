@@ -36,7 +36,6 @@ services:
       - /var/lib/app/node_modules
     environment:
       POSTGRES_HOST: postgres
-
     networks:
       - nodejs-network
 
