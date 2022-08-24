@@ -1,6 +1,3 @@
-import { AlbumEntity } from 'src/album/entities/album.entity';
-import { ArtistEntity } from 'src/artist/entities/artist.entity';
-import { TrackEntity } from 'src/track/entities/track.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('fav_artistId')
@@ -8,11 +5,11 @@ export class FavoritesArtistEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToMany(() => ArtistEntity, (artist) => artist.id, {
-    nullable: true,
-    onDelete: 'SET NULL',
-  })
-  artist: ArtistEntity;
+  // @ManyToMany(() => ArtistEntity, (artist) => artist.id, {
+  //   nullable: true,
+  //   onDelete: 'SET NULL',
+  // })
+  // artist: ArtistEntity;
   @Column({ nullable: true })
   artistId: string;
 
@@ -26,11 +23,11 @@ export class FavoritesAlbumEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToMany(() => AlbumEntity, (album) => album.id, {
-    nullable: true,
-    onDelete: 'SET NULL',
-  })
-  album: AlbumEntity;
+  // @ManyToMany(() => AlbumEntity, (album) => album.id, {
+  //   nullable: true,
+  //   onDelete: 'SET NULL',
+  // })
+  // album: AlbumEntity;
   @Column({ nullable: true })
   albumId: string;
 
@@ -44,11 +41,11 @@ export class FavoritesTrackEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToMany(() => TrackEntity, (track) => track.id, {
-    nullable: true,
-    onDelete: 'SET NULL',
-  })
-  track: TrackEntity;
+  // @ManyToMany(() => TrackEntity, (track) => track.id, {
+  //   nullable: true,
+  //   onDelete: 'SET NULL',
+  // })
+  // track: TrackEntity;
   @Column({ nullable: true })
   trackId: string;
 
