@@ -2,52 +2,50 @@ version: '3.8'
 
 services:
   postgres:
-    container_name: postgres
     image: postgres:14.4-alpine
+    container_name: postgres
     build: ./db
+    restart: always
+    env_file:
+      - .env
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
-      - postgresdb:/var/lib/postgresql/data
-    env_file:
-      - .env
+      - pgdata:/var/lib/postgresql/data
     environment:
-      POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
       PGDATA: /var/lib/postgresql/data
-    restart: always
     networks:
       - nodejs-network
 
   app:
-    container_name: app
     image: vadzimsh/nestjs-app
+    container_name: app
     build: .
+    restart: always
+    depends_on: 
+      - postgres
+    env_file:
+      - .env
     ports:
       - ${PORT}:${PORT}
     volumes:
-      - .:/usr/app
-      - /usr/app/node_modules
-    env_file:
-      - .env
-    depends_on: 
-      - postgres
-    # links:
-    #   - postgres
+      - app:/var/lib/app
+      - /var/lib/app/node_modules
     environment:
-      POSTGRES_PORT: ${POSTGRES_PORT}
       POSTGRES_HOST: postgres
-    restart: always
+
     networks:
       - nodejs-network
 
-  
+volumes:
+  pgdata:
+    name: pgdata
+  app:
+    name: app
+
 networks:
   nodejs-network:
-    name: nodejs-network
     driver: bridge
-
-volumes:
-  postgresdb:
