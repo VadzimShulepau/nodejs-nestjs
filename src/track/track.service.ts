@@ -66,7 +66,7 @@ export class TrackService {
     const track = await this.findOne(id);
     if (!track) throw new NotFoundException('track not found');
 
-    await this.trackRepository.delete(id);
+    await this.trackRepository.remove(track);
     await this.favoritesService.deleteFavsTrack(id);
   }
 }

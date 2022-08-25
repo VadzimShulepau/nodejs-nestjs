@@ -59,7 +59,7 @@ export class AlbumService {
     const album = await this.findOne(id);
     if (!album) throw new NotFoundException('artist not found');
 
-    await this.albumRepository.delete(id);
+    await this.albumRepository.remove(album);
 
     const tracks = await this.trackService.findAll();
     tracks.filter((track) => track.albumId === id);

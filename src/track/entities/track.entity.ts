@@ -1,6 +1,15 @@
 import { Track } from './../interfaces/track.interface';
 import { v4 as uuid } from 'uuid';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { AlbumEntity } from '../../album/entities/album.entity';
+import { ArtistEntity } from '../../artist/entities/artist.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+
 
 @Entity('track')
 export class TrackEntity implements Track {
@@ -10,21 +19,25 @@ export class TrackEntity implements Track {
   @Column()
   name: string;
 
-  // @ManyToOne(() => ArtistEntity, (artist) => artist.id, {
-  //   nullable: true,
-  //   onDelete: 'SET NULL',
-  // })
-  // artist: ArtistEntity;
   @Column({ nullable: true, default: null })
   artistId: string | null;
 
-  // @ManyToOne(() => AlbumEntity, (album) => album.id, {
-  //   nullable: true,
-  //   onDelete: 'SET NULL',
-  // })
-  // album: AlbumEntity;
   @Column({ nullable: true, default: null })
   albumId: string | null;
+
+  @ManyToOne(() => AlbumEntity, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn()
+  album: AlbumEntity;
+
+  @ManyToOne(() => ArtistEntity, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn()
+  artist: ArtistEntity;
 
   @Column()
   duration: number;

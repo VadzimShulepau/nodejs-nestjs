@@ -15,3 +15,5 @@ export const ormConfig = new DataSource({
   migrations: [process.cwd() + './db/migrations/*.ts'],
   migrationsTableName: 'migration',
 });
+
+ormConfig.initialize();

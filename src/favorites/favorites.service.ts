@@ -90,13 +90,13 @@ export class FavoritesService {
     if (isExist) {
       const favs = {
         artists: async (id: string) => {
-          return await this.favRepoArtists.delete(id);
+          return await this.favRepoArtists.delete({ id });
         },
         albums: async (id: string) => {
-          return await this.favRepoAlbums.delete(id);
+          return await this.favRepoAlbums.delete({ id });
         },
         tracks: async (id: string) => {
-          return await this.favRepoTracks.delete(id);
+          return await this.favRepoTracks.delete({ id });
         },
       };
       return favs[item];
