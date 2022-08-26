@@ -1,6 +1,12 @@
 import { AlbumEntity } from 'src/album/entities/album.entity';
 import { TrackEntity } from 'src/track/entities/track.entity';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { ArtistEntity } from '../../artist/entities/artist.entity';
 
 @Entity('fav_artistId')
@@ -12,7 +18,9 @@ export class FavoritesArtistEntity {
     nullable: true,
     onDelete: 'SET NULL',
   })
+  @JoinColumn()
   artist: Promise<ArtistEntity>;
+
   @Column({ nullable: true })
   artistId: string;
 
@@ -30,7 +38,9 @@ export class FavoritesAlbumEntity {
     nullable: true,
     onDelete: 'SET NULL',
   })
+  @JoinColumn()
   album: Promise<AlbumEntity>;
+
   @Column({ nullable: true })
   albumId: string;
 
@@ -48,7 +58,9 @@ export class FavoritesTrackEntity {
     nullable: true,
     onDelete: 'SET NULL',
   })
+  @JoinColumn()
   track: Promise<TrackEntity>;
+
   @Column({ nullable: true })
   trackId: string;
 

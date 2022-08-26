@@ -10,7 +10,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-
 @Entity('track')
 export class TrackEntity implements Track {
   @PrimaryGeneratedColumn('uuid')
@@ -25,14 +24,14 @@ export class TrackEntity implements Track {
   @Column({ nullable: true, default: null })
   albumId: string | null;
 
-  @ManyToOne(() => AlbumEntity, {
+  @ManyToOne(() => AlbumEntity, (album) => album.id, {
     nullable: true,
     onDelete: 'SET NULL',
   })
   @JoinColumn()
   album: AlbumEntity;
 
-  @ManyToOne(() => ArtistEntity, {
+  @ManyToOne(() => ArtistEntity, (artist) => artist.id, {
     nullable: true,
     onDelete: 'SET NULL',
   })

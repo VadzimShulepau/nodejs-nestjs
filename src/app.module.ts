@@ -6,11 +6,11 @@ import { UserModule } from './user/user.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { serviceConfig } from './configs/service.config';
+import { ormConfig } from './configs/orm.config';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '../.evn' }),
-    TypeOrmModule.forRoot(serviceConfig),
+    TypeOrmModule.forRoot(ormConfig.options),
     UserModule,
     ArtistModule,
     TrackModule,

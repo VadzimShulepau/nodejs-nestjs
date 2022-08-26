@@ -1,6 +1,6 @@
 import { Album } from './../interfaces/album.interface';
 import { v4 as uuid } from 'uuid';
-import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ArtistEntity } from '../../artist/entities/artist.entity';
 
 export class AlbumEntity implements Album {
@@ -17,7 +17,9 @@ export class AlbumEntity implements Album {
     nullable: true,
     onDelete: 'SET NULL',
   })
+  @JoinColumn()
   artist: Promise<AlbumEntity>;
+
   @Column({ nullable: true, default: null })
   artistId: string | null;
 
