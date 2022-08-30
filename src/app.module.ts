@@ -7,6 +7,7 @@ import { FavoritesModule } from './favorites/favorites.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ormConfig } from './configs/orm.config';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: '../.evn' }),
@@ -16,6 +17,7 @@ import { ormConfig } from './configs/orm.config';
     TrackModule,
     AlbumModule,
     FavoritesModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
