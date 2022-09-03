@@ -30,7 +30,7 @@ export class AuthController {
 
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  async refresh(@Body() token) {
+  async refresh(@Body() { token }) {
     return await this.authService.refresh(token);
   }
 }
