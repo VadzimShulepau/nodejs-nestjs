@@ -1,5 +1,5 @@
-## Assigment [link](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/containerization/assignment.md).
-## Deadline date: 2022-07-31.
+<!-- ## Assigment [link](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/containerization/assignment.md).
+## Deadline date: 2022-07-31. -->
 
 ### for build container enter - `"docker:build"`,
 ### for run services enter - `"docker:start"`,
