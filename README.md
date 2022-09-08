@@ -1,7 +1,7 @@
-## Assigment [link](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/rest-service/assignment.md).
+<!-- ## Assigment [link](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/rest-service/assignment.md).
 ## Deadline date: 2022-07-17.
 
-## Total score: 150.
+## Total score: 150. -->
 
 # Home Library Service
 
