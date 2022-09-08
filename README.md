@@ -1,6 +1,6 @@
-## Assignment [link](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/containerization/assignment.md)
+<!-- ## Assignment [link](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/containerization/assignment.md)
 
-## Deadline date: 2022-07-31
+## Deadline date: 2022-07-31 -->
 
 - ### for install all dependencies enter - `"npm ci"`
 
